@@ -4,10 +4,12 @@ public class TestApiRequestData
         /// <summary>
         /// 含参构造函数
         /// </summary>
-/// <param name="prepay_id">预支付交易会话标识  <para>预支付交易会话标识。用于后续接口调用中使用，该值有效期为2小时</para><para>示例值：wx201410272009395522657a690389285100</para><para>可为null</para></param>
-        public TestApiRequestData(string prepay_id)
+/// <param name="stock_id"> 批次号  <para>微信为每个代金券批次分配的唯一ID。</para><para>示例值：98065001</para></param>
+/// <param name="create_time">创建时间  <para>创建时间，遵循rfc3339标准格式，格式为YYYY-MM-DDTHH:mm:ss.sss+TIMEZONE，YYYY-MM-DD表示年月日，T出现在字符串中，表示time元素的开头，HH:mm:ss.sss表示时分秒毫秒，TIMEZONE表示时区（+08:00表示东八区时间，领先UTC8小时，即北京时间）。例如：2015-05-20T13:29:35.120+08:00表示，北京时间2015年5月20日13点29分35秒。</para><para>示例值：2015-05-20T13:29:35.120+08:00</para></param>
+        public TestApiRequestData(string stock_id, string create_time)
         {
-        this.prepay_id = prepay_id;
+        this.stock_id = stock_id;
+this.create_time = create_time;
         }
 
         /// <summary>
@@ -18,12 +20,18 @@ public class TestApiRequestData
         }
         
         /// <summary>
-        /// 预支付交易会话标识 
-        /// <para>预支付交易会话标识。用于后续接口调用中使用，该值有效期为2小时 </para>
- /// <para>示例值：wx201410272009395522657a690389285100 </para>
-        /// <para>可为null</para>
+        ///  批次号 
+        /// <para>微信为每个代金券批次分配的唯一ID。</para>
+ /// <para>示例值：98065001 </para>
         /// </summary>
-        public string prepay_id { get; set; }
+        public string stock_id { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// <para>创建时间，遵循rfc3339标准格式，格式为YYYY-MM-DDTHH:mm:ss.sss+TIMEZONE，YYYY-MM-DD表示年月日，T出现在字符串中，表示time元素的开头，HH:mm:ss.sss表示时分秒毫秒，TIMEZONE表示时区（+08:00表示东八区时间，领先UTC 8小时，即北京时间）。例如：2015-05-20T13:29:35.120+08:00表示，北京时间2015年5月20日 13点29分35秒。 </para>
+ /// <para>示例值：2015-05-20T13:29:35.120+08:00 </para>
+        /// </summary>
+        public string create_time { get; set; }
 
 }
 

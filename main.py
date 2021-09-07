@@ -107,6 +107,7 @@ def create_class(class_name, tr):
         param_name = td[1].text.replace(" ", "")
         param_type = td[2].text
         can_be_null = td[3].text
+
         param_detail = (
             "<para>"
             + td[4]
@@ -121,7 +122,7 @@ def create_class(class_name, tr):
         for each in continuous_bankets:
             param_detail = param_detail.replace(each, " ")
 
-        if re.match(r".*是.*", can_be_null):
+        if re.match(r".*否.*", can_be_null):
             param_detail += "\n        /// <para>可为null</para>"
 
         if sub_class_name != "":
@@ -168,7 +169,12 @@ def create_class(class_name, tr):
 
         # 判断是否是array
         if re.match(".*array.*", td[2].text.replace(" ", "")):
-            param_type += "[]"
+            # 没有子类 直接为string[]
+            if sub_class_name == "":
+                param_type = "string[]"
+            # 有子类 为object[]
+            else:
+                param_type += "[]"
 
         # 加入函数声明
         param_data += f"public {param_type} {param_name} {{ get; set; }}\n"
@@ -242,7 +248,7 @@ def main():
     # print("请输入api名:")
     # api_name = input()
 
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml"
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_1_1.shtml"
     api_name = "TestApi"
 
     # 获取页面
