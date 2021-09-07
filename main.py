@@ -18,7 +18,7 @@ def request_page(url):
     return res
 
 
-def get_api_request_data(res):
+def get_api_request_data(res, class_name):
 
     # 处理请求
     soup = bs4.BeautifulSoup(res.text, "html.parser")
@@ -32,7 +32,25 @@ def get_api_request_data(res):
             request_data_tr = each.find("div", class_="table-wrp").table.tbody
             break
 
-    result = create_class("test", request_data_tr)
+    result = create_class(class_name, request_data_tr)
+    return result
+
+
+def get_api_return_json(res, class_name):
+
+    # 处理请求
+    soup = bs4.BeautifulSoup(res.text, "html.parser")
+
+    div_part = soup.find_all("div", class_="part")
+
+    # 查找请求参数div_part
+    request_data_tr = None
+    for each in div_part:
+        if each.h3.text == "返回参数":
+            request_data_tr = each.find("div", class_="table-wrp").table.tbody
+            break
+
+    result = create_class(class_name, request_data_tr)
     return result
 
 
@@ -207,13 +225,24 @@ def format_class_name(class_name):
 
 
 def main():
-    print(format_class_name("test_hello"))
-    res = request_page(
-        "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml"
-    )
+    # 输入api信息
+    print("请输入文档链接:")
+    url = input()
+    print("请输入api名:")
+    api_name = input()
 
-    result = get_api_request_data(res)
-    write_result("result.cs", result)
+    # 获取页面
+    res = request_page(url)
+
+    # 获取请求数据
+    request_data_name = f"{api_name}RequestData"
+    api_request_data = get_api_request_data(res, request_data_name)
+    write_result(f"{request_data_name}.cs", api_request_data)
+
+    # 获取返回数据
+    return_json_name = f"{api_name}ReturnJson"
+    api_return_json = get_api_return_json(res, request_data_name)
+    write_result(f"{return_json_name}.cs", api_return_json)
     # # 读入文件
     # print("reading words.txt...")
     # words_text = get_words_list("words.txt")
