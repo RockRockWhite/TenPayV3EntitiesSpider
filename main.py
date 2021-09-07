@@ -32,6 +32,9 @@ def get_api_request_data(res, class_name):
             request_data_tr = each.find("div", class_="table-wrp").table.tbody
             break
 
+    if request_data_tr is None:
+        return ""
+
     result = create_class(class_name, request_data_tr)
     return result
 
@@ -50,7 +53,29 @@ def get_api_return_json(res, class_name):
             request_data_tr = each.find("div", class_="table-wrp").table.tbody
             break
 
+    if request_data_tr is None:
+        return ""
     result = create_class(class_name, request_data_tr)
+    return result
+
+
+def get_api_notify_json(res, class_name):
+
+    # 处理请求
+    soup = bs4.BeautifulSoup(res.text, "html.parser")
+
+    div_part = soup.find_all("div", class_="part")
+
+    # 查找回调参数div_part
+    data_tr = None
+    for each in div_part:
+        if re.match(".+通知参数", each.h3.text):
+            data_tr = each.find("div", class_="table-wrp").table.tbody
+            break
+
+    if data_tr is None:
+        return ""
+    result = create_class(class_name, data_tr)
     return result
 
 
@@ -85,6 +110,12 @@ def create_class(class_name, tr):
             .replace("\n", "</para>\n        /// <para>")
             + "</para>"
         )
+
+        # 去掉多余的空格
+        continuous_bankets = re.findall(r" {2,}", param_detail)
+        for each in continuous_bankets:
+            param_detail = param_detail.replace(each, " ")
+
         if re.match(r".*是.*", can_be_null):
             param_detail += "\n        /// <para>可为null</para>"
 
@@ -159,53 +190,8 @@ def create_class(class_name, tr):
     return class_data
 
 
-def get_trans_and_example(word):
-
-    url = f"https://dict.youdao.com/search?q={word}&keyfrom=new-fanyi.smartResult"
-    headers = {
-        "User-Agent": r"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-        r"Chrome/88.0.4324.150 Safari/537.36"
-    }
-
-    # 发送请求
-    res = request.get(url=url, headers=headers)
-
-    # 处理请求
-    soup = bs4.BeautifulSoup(res.text, "html.parser")
-
-    word_trans = soup.find("div", class_="trans-container").text
-    word_trans = word_trans.split("\n\n[")[0]
-
-    word_trans = word_trans.split("\n\n")[1]
-
-    examples = soup.find_all("div", class_="examples")
-
-    best_example = ""
-
-    for each in examples:
-
-        if best_example == "":
-            best_example = each.text
-
-        else:
-            best_example = (
-                each.text if len(best_example) > len(each.text) else best_example
-            )
-
-    return word + "\n\n" + word_trans + "\n" + best_example
-
-
-def get_words_list(path):
-
-    file = open(path, "rt", encoding="utf-8")
-    file_context = file.read()
-    file.close()
-
-    return file_context
-
-
+# 将字符串写出到文件
 def write_result(path, result):
-
     file_to_write = open(path, "w", encoding="utf-8")
     file_to_write.write(result)
     file_to_write.close()
@@ -227,9 +213,12 @@ def format_class_name(class_name):
 def main():
     # 输入api信息
     print("请输入文档链接:")
-    url = input()
+
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml"
+    api_name = "TestApi"
+    # url = input()
     print("请输入api名:")
-    api_name = input()
+    # api_name = input()
 
     # 获取页面
     res = request_page(url)
@@ -243,22 +232,11 @@ def main():
     return_json_name = f"{api_name}ReturnJson"
     api_return_json = get_api_return_json(res, request_data_name)
     write_result(f"{return_json_name}.cs", api_return_json)
-    # # 读入文件
-    # print("reading words.txt...")
-    # words_text = get_words_list("words.txt")
-    # words_list = words_text.split("\n")
 
-    # result = ""
-
-    # for each in words_list:
-    #     print(f"getting {each}...")
-    #     curr_result = get_trans_and_example(each)
-    #     result += "\n\n"
-    #     result += curr_result
-
-    # write_result("result.txt", result)
-
-    # print("Succeed in writing to  result.txt...")
+    # 获取回调数据
+    notify_json_name = f"{api_name}NotifyJson"
+    api_notify_json = get_api_notify_json(res, notify_json_name)
+    write_result(f"{notify_json_name}.cs", api_notify_json)
 
 
 if __name__ == "__main__":
