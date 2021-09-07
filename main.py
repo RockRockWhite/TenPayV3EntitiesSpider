@@ -104,7 +104,7 @@ def create_class(class_name, tr):
         td = each.find_all("td")
 
         param_chiese_name = td[0].text
-        param_name = td[1].text
+        param_name = td[1].text.replace(" ", "")
         param_type = td[2].text
         can_be_null = td[3].text
         param_detail = (
@@ -125,7 +125,7 @@ def create_class(class_name, tr):
             param_detail += "\n        /// <para>可为null</para>"
 
         if sub_class_name != "":
-            sub_class_data += create_class(sub_class_name, each)
+            sub_class_data += create_class(sub_class_name, each.find("tbody"))
             sub_class_name = ""
             continue
 
@@ -222,7 +222,7 @@ def main():
     # print("请输入api名:")
     # api_name = input()
 
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter5_1_1.shtml"
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml"
     api_name = "TestApi"
 
     # 获取页面
