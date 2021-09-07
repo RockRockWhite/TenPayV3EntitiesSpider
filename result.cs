@@ -17,7 +17,7 @@ public class test
     /// <param name="detail ">优惠功能 <para>body优惠功能</para></param>
     /// <param name="scene_info ">场景信息 <para>body支付场景描述</para></param>
     /// <param name="settle_info">结算信息 <para>body结算信息</para></param>
-    public test(string appid, string mchid, string description, string out_trade_no, string time_expire, string attach, string notify_url, string goods_tag, AMOUNT amount, PAYER payer, DETAIL detail, SCENE_INFO scene_info, SETTLE_INFO settle_info)
+    public test(string appid, string mchid, string description, string out_trade_no, string time_expire, string attach, string notify_url, string goods_tag, Amount amount, Payer payer, Detail detail, Scene_Info scene_info, Settle_Info settle_info)
     {
         this.appid = appid;
         this.mchid = mchid;
@@ -107,42 +107,42 @@ public class test
     /// <para>body 订单金额信息</para>
     /// <para>可为null</para>
     /// </summary>
-    public AMOUNT amount { get; set; }
+    public Amount amount { get; set; }
 
     /// <summary>
     /// 支付者
     /// <para>body 支付者信息</para>
     /// <para>可为null</para>
     /// </summary>
-    public PAYER payer { get; set; }
+    public Payer payer { get; set; }
 
     /// <summary>
     /// 优惠功能
     /// <para>body 优惠功能</para>
     /// </summary>
-    public DETAIL detail { get; set; }
+    public Detail detail { get; set; }
 
     /// <summary>
     /// 场景信息
     /// <para>body 支付场景描述</para>
     /// </summary>
-    public SCENE_INFO scene_info { get; set; }
+    public Scene_Info scene_info { get; set; }
 
     /// <summary>
     /// 结算信息
     /// <para>body 结算信息</para>
     /// </summary>
-    public SETTLE_INFO settle_info { get; set; }
+    public Settle_Info settle_info { get; set; }
 
     #region 子数据类型
-    public class AMOUNT
+    public class Amount
     {
 
         /// <summary>
         /// 含参构造函数
         /// </summary>
         /// <param name="total ">总金额  <para>订单总金额，单位为分。</para><para>示例值：100</para><para>可为null</para></param>
-        public AMOUNT(int total)
+        public Amount(int total)
         {
             this.total = total;
         }
@@ -150,7 +150,7 @@ public class test
         /// <summary>
         /// 无参构造函数
         /// </summary>
-        public AMOUNT()
+        public Amount()
         {
         }
 
@@ -163,14 +163,14 @@ public class test
         public int total { get; set; }
 
     }
-    public class PAYER
+    public class Payer
     {
 
         /// <summary>
         /// 含参构造函数
         /// </summary>
         /// <param name="openid ">用户标识  <para>用户在直连商户appid下的唯一标识。下单前需获取到用户的Openid，Openid获取详见</para><para>示例值：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o</para><para>可为null</para></param>
-        public PAYER(string openid)
+        public Payer(string openid)
         {
             this.openid = openid;
         }
@@ -178,7 +178,7 @@ public class test
         /// <summary>
         /// 无参构造函数
         /// </summary>
-        public PAYER()
+        public Payer()
         {
         }
 
@@ -191,14 +191,14 @@ public class test
         public string openid { get; set; }
 
     }
-    public class DETAIL
+    public class Detail
     {
 
         /// <summary>
         /// 含参构造函数
         /// </summary>
         /// <param name="cost_price ">订单原价  <para>1、商户侧一张小票订单可能被分多次支付，订单原价用于记录整张小票的交易金额。2、当订单原价与支付金额不相等，则不享受优惠。3、该字段主要用于防止同一张小票分多次支付，以享受多次优惠的情况，正常支付订单不必上传此参数。</para><para>示例值：608800</para></param>
-        public DETAIL(int cost_price)
+        public Detail(int cost_price)
         {
             this.cost_price = cost_price;
         }
@@ -206,7 +206,7 @@ public class test
         /// <summary>
         /// 无参构造函数
         /// </summary>
-        public DETAIL()
+        public Detail()
         {
         }
 
@@ -218,14 +218,14 @@ public class test
         public int cost_price { get; set; }
 
     }
-    public class SCENE_INFO
+    public class Scene_Info
     {
 
         /// <summary>
         /// 含参构造函数
         /// </summary>
         /// <param name="payer_client_ip ">用户终端IP  <para>用户的客户端IP，支持IPv4和IPv6两种格式的IP地址。</para><para>示例值：14.23.150.211</para><para>可为null</para></param>
-        public SCENE_INFO(string payer_client_ip)
+        public Scene_Info(string payer_client_ip)
         {
             this.payer_client_ip = payer_client_ip;
         }
@@ -233,7 +233,7 @@ public class test
         /// <summary>
         /// 无参构造函数
         /// </summary>
-        public SCENE_INFO()
+        public Scene_Info()
         {
         }
 
@@ -246,14 +246,14 @@ public class test
         public string payer_client_ip { get; set; }
 
     }
-    public class SETTLE_INFO
+    public class Settle_Info
     {
 
         /// <summary>
         /// 含参构造函数
         /// </summary>
         /// <param name="profit_sharing">是否指定分账 <para>是否指定分账</para><para>示例值：false</para></param>
-        public SETTLE_INFO(boolean profit_sharing)
+        public Settle_Info(boolean profit_sharing)
         {
             this.profit_sharing = profit_sharing;
         }
@@ -261,7 +261,7 @@ public class test
         /// <summary>
         /// 无参构造函数
         /// </summary>
-        public SETTLE_INFO()
+        public Settle_Info()
         {
         }
 

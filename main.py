@@ -77,7 +77,8 @@ def create_class(class_name, tr):
 
         # 判断是否为子类型数据
         if re.match(r"\+.*", param_chiese_name):
-            sub_class_name = param_name.upper()
+
+            sub_class_name = format_class_name(param_name)
             param_type = sub_class_name
 
             # 除去+
@@ -192,7 +193,21 @@ def write_result(path, result):
     file_to_write.close()
 
 
+# 获得首字母以及下划线后字母都大写的类名
+def format_class_name(class_name):
+    # 首字母大写
+    class_name = re.sub(r"^.", class_name[0].upper(), class_name)
+
+    underscore_words = re.findall("_.", class_name)
+
+    for each in underscore_words:
+        class_name = class_name.replace(each, each.upper())
+
+    return class_name
+
+
 def main():
+    print(format_class_name("test_hello"))
     res = request_page(
         "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml"
     )
