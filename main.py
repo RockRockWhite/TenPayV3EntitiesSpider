@@ -259,8 +259,8 @@ def main():
     # print("请输入api名:")
     # api_name = input()
 
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_2_1.shtml"
-    api_name = "CreateBusifavorStock"
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_2_5.shtml"
+    api_name = "QueryBusifavorCoupon"
 
     # 获取页面
     res = request_page(url)
