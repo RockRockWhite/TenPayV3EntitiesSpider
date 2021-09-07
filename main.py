@@ -151,8 +151,23 @@ def create_class(class_name, tr):
         if re.match("string.*", param_type):
             param_type = "string"
 
-            # 判断是否是array
-        if td[2].text.replace(" ", "") == "array":
+        if re.match("uint64.*", param_type):
+            param_type = "ulong"
+
+        if re.match("int64.*", param_type):
+            param_type = "long"
+
+        if re.match("uint32.*", param_type):
+            param_type = "uint"
+
+        if re.match("int32.*", param_type):
+            param_type = "int"
+
+        if re.match("boolean.*", param_type):
+            param_type = "bool"
+
+        # 判断是否是array
+        if re.match(".*array.*", td[2].text.replace(" ", "")):
             param_type += "[]"
 
         # 加入函数声明
