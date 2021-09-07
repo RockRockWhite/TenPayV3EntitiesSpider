@@ -108,14 +108,25 @@ def create_class(class_name, tr):
         param_type = td[2].text
         can_be_null = td[3].text
 
-        param_detail = (
-            "<para>"
-            + td[4]
-            .text.replace("\t", "")
-            .replace("\r\n", "")
-            .replace("\n", "</para>\n        /// <para>")
-            + "</para>"
-        )
+        if len(td) == 5:
+            param_detail = (
+                "<para>"
+                + td[4]
+                .text.replace("\t", "")
+                .replace("\r\n", "")
+                .replace("\n", "</para>\n        /// <para>")
+                + "</para>"
+            )
+        else:
+            param_detail = (
+                "<para>"
+                + td[3]
+                .text.replace("\t", "")
+                .replace("\r\n", "")
+                .replace("\n", "</para>\n        /// <para>")
+                + "</para>"
+            )
+            param_detail += "TODO: 多选一"
 
         # 去掉多余的空格
         continuous_bankets = re.findall(r" {2,}", param_detail)
@@ -248,8 +259,8 @@ def main():
     # print("请输入api名:")
     # api_name = input()
 
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_1_1.shtml"
-    api_name = "TestApi"
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_2_1.shtml"
+    api_name = "CreateBusifavorStock"
 
     # 获取页面
     res = request_page(url)
@@ -261,7 +272,7 @@ def main():
 
     # 获取返回数据
     return_json_name = f"{api_name}ReturnJson"
-    api_return_json = get_api_return_json(res, request_data_name)
+    api_return_json = get_api_return_json(res, return_json_name)
     write_result(f"{return_json_name}.cs", api_return_json)
 
     # 获取回调数据
