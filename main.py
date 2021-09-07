@@ -147,8 +147,13 @@ def create_class(class_name, tr):
         /// </summary>
         """
 
+        # 处理类型
         if re.match("string.*", param_type):
             param_type = "string"
+
+            # 判断是否是array
+        if td[2].text.replace(" ", "") == "array":
+            param_type += "[]"
 
         # 加入函数声明
         param_data += f"public {param_type} {param_name} {{ get; set; }}\n"
