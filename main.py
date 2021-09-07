@@ -1,3 +1,4 @@
+from bs4.element import Comment
 import request
 import bs4
 import re
@@ -96,6 +97,10 @@ def create_class(class_name, tr):
         if each == "\n":
             continue
 
+        # 排除comment
+        if isinstance(each, Comment):
+            continue
+
         td = each.find_all("td")
 
         param_chiese_name = td[0].text
@@ -185,7 +190,7 @@ def create_class(class_name, tr):
         class_data += sub_class_data
         class_data += "\n#endregion"
 
-    class_data += "\n}\n"
+    class_data += "\n}\n\n"
 
     return class_data
 
@@ -211,14 +216,14 @@ def format_class_name(class_name):
 
 
 def main():
-    # 输入api信息
-    print("请输入文档链接:")
-
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml"
-    api_name = "TestApi"
+    # 输入api信息 交付模式
+    # print("请输入文档链接:")
     # url = input()
-    print("请输入api名:")
+    # print("请输入api名:")
     # api_name = input()
+
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter5_1_1.shtml"
+    api_name = "TestApi"
 
     # 获取页面
     res = request_page(url)
