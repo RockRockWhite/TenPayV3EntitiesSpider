@@ -261,16 +261,7 @@ def format_class_name(class_name):
     return class_name
 
 
-def main():
-    # 输入api信息 交付模式
-    # print("请输入文档链接:")
-    # url = input()
-    # print("请输入api名:")
-    # api_name = input()
-
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_0_1.shtml"
-    api_name = "UploadImage"
-
+def get_entity(url, api_name):
     # 获取页面
     res = request_page(url)
 
@@ -288,6 +279,22 @@ def main():
     notify_json_name = f"{api_name}NotifyJson"
     api_notify_json = get_api_notify_json(res, notify_json_name)
     write_result(f"{notify_json_name}.cs", api_notify_json)
+
+
+def main():
+    # 输入api信息 交付模式
+    # print("请输入文档链接:")
+    # url = input()
+    # print("请输入api名:")
+    # api_name = input()
+    name_base = "chapter10_2_"
+    name = name_base
+
+    begin = 16
+    end = 18
+    for i in range(begin, end + 1):
+        name = name_base + str(i)
+        get_entity(f"https://pay.weixin.qq.com/wiki/doc/apiv3/apis/{name}.shtml", name)
 
 
 if __name__ == "__main__":
