@@ -73,6 +73,15 @@ def get_api_notify_json(res, class_name):
         if re.match(".+通知参数", each.h3.text):
             data_tr = each.find("div", class_="table-wrp").table.tbody
             break
+    # cnt = 0
+
+    # for each in div_part:
+    #     if re.match("通知参数", each.h3.text):
+    #         cnt += 1
+    #         if cnt == 1:
+    #             continue
+    #         data_tr = each.find("div", class_="table-wrp").table.tbody
+    #         break
 
     if data_tr is None:
         return ""
@@ -259,8 +268,8 @@ def main():
     # print("请输入api名:")
     # api_name = input()
 
-    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_2_5.shtml"
-    api_name = "QueryBusifavorCoupon"
+    url = "https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter9_0_1.shtml"
+    api_name = "UploadImage"
 
     # 获取页面
     res = request_page(url)
